@@ -31,7 +31,17 @@ cito_removeNA <- cito_removeNA %>% mutate(condition = ifelse(CITO_DO_CITO_metnor
 # Calculate average of 2 items measuring whether taking training is evaluated negative to positive. (1-9 scale)
 cito_removeNA <- cito_removeNA %>% mutate (mean_neg_pos = (eval_training_1 + eval_training_2 )/2)
 
+# Run analysis for research question 1
+model1 = lm(mean_neg_pos ~ condition, data = cito_removeNA)
+summary(model1)
 
+# Run analysis for research question 2
+model2 = lm(eval_child_1 ~ condition, data = cito_removeNA)
+summary(model2)
+
+# Run analysis for research question 3
+model3 = lm(eval_child_2 ~ condition, data = cito_removeNA)
+summary(model3)
 
 
 
