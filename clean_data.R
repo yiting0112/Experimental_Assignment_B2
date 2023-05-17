@@ -4,6 +4,8 @@ install.packages("car")
 install.packages("emmeans")
 install.packages("effectsize")
 install.packages("tidyr")
+install.packages("broom")
+install.packages("ggplot2")
 
 
 ## Load packages ##
@@ -11,6 +13,8 @@ library(haven)
 library(dplyr)
 library(car)
 library(tidyr)
+library(broom)
+library(ggplot2)
 
 ## Input ##
 cito <- read_sav("data/PTW+CITO+evaluatie+en+focus_May+5,+2023_14.47.sav")
@@ -33,15 +37,20 @@ cito_removeNA <- cito_removeNA %>% mutate (mean_neg_pos = (eval_training_1 + eva
 
 # Run analysis for research question 1
 model1 = lm(mean_neg_pos ~ condition, data = cito_removeNA)
-summary(model1)
+tidy_model1 <- tidy(model1)
 
 # Run analysis for research question 2
 model2 = lm(eval_child_1 ~ condition, data = cito_removeNA)
-summary(model2)
+tidy_model2 <- tidy(model2)
 
 # Run analysis for research question 3
 model3 = lm(eval_child_2 ~ condition, data = cito_removeNA)
-summary(model3)
+tidy_model3 <- tidy(model3)
 
-
+# Combine the tidy outputs into one table
+combined_table <- bind_rows(
+  "Research Question 1" = tidy_model1,
+  "Research Question 2" = tidy_model2,
+  "Research Question 3" = tidy_model3
+)
 
