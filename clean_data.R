@@ -16,6 +16,7 @@ library(tidyr)
 library(broom)
 library(ggplot2)
 library(kableExtra)
+
 ## Input ##
 cito <- read_sav("data/PTW+CITO+evaluatie+en+focus_May+5,+2023_14.47.sav")
 rm(cito_removeNA)
@@ -55,18 +56,17 @@ combined_table <- bind_rows(
   "Research Question 3" = tidy_model3
 )
 
+## Create the table to present the result and save it as pdf ##
+
 new_column <- c("Attitude towards CITO training", "", "Perceived effect of CITO training on students who attend the training", "", "Perceived effect of CITO training on students who don't attend the training", "")
 
-# Add the new column to the original table
+# Add the new column of dependent variables to the original table
 combined_table <- cbind(DV = new_column, combined_table)
 
-# Create the styled table
 pdf("result_table.pdf")
 styled_table <- kable(combined_table, align = "c") %>%
   kable_styling(full_width = FALSE, bootstrap_options = "striped") %>%
   add_header_above(c("Output" = 6))  # Update the number of columns in the header
-
-# Save the table as a PDF
 dev.off()
 
 
